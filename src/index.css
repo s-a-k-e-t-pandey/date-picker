@@ -1,0 +1,28 @@
+.container {
+    background: #e70909;
+    height: 100px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    align-items: center;
+    justify-content: center;
+}
+
+.calender {
+    padding-top: 50px;
+    padding-right: 30px;
+    padding-bottom: 50px;
+    padding-left: 80px;   
+    border: 2px solid gray;
+    cursor: pointer
+}
+
+.dateRange{
+    position: absolute;
+    top: 120px;
+}
+
+.rdrCalendarWrapper {
+  border-radius: 16px !important;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.1) !important;
+}
