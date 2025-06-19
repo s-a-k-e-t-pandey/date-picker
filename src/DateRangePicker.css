@@ -1,0 +1,320 @@
+.datepicker {
+    position: relative;
+    width: 320px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.input-wrapper {
+    position: relative;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    background: white;
+    transition: all 0.2s ease;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    padding: 10px 12px;
+    gap: 8px;
+    min-height: 42px;
+}
+
+.input-wrapper:hover {
+    border-color: #667eea;
+    background-color: #f9fafb;
+}
+
+.input-wrapper:focus-within {
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.12);
+    background-color: white;
+}
+
+.datepicker input {
+    border: none;
+    outline: none;
+    font-size: 14px;
+    background: transparent;
+    color: #111827;
+    width: 100%;
+    cursor: pointer;
+}
+
+.datepicker input::placeholder {
+    color: #9ca3af;
+}
+
+.calendar-icon {
+    color: #6b7280;
+    flex-shrink: 0;
+    transition: color 0.2s ease;
+}
+
+.input-wrapper:hover .calendar-icon {
+    color: #4f46e5;
+}
+
+.calendar {
+    background-color: white;
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    width: 320px;
+    z-index: 9999;
+    padding: 16px;
+    border-radius: 12px;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.15);
+    user-select: none;
+    font-size: 0.9rem;
+    border: 1px solid #e5e7eb;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-8px);
+    transition: all 0.2s ease;
+}
+
+.calendar.visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+    /* display: grid; */
+    /* grid-template-rows: auto; */
+}
+
+.calendar:not([hidden]) {
+  display: block !important;
+  grid-template-columns: unset !important;
+  gap: unset !important;
+}
+
+
+.calendar-header {
+    margin-bottom: 16px;
+}
+
+.controls {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 12px;
+}
+
+.label {
+    display: flex;
+    gap: 4px;
+    flex-direction: row;
+    justify-content: end;
+}
+
+.month-label, .year-label {
+    border: none;
+    background: none;
+    font-size: 14px;
+    font-weight: 600;
+    color: #111827;
+    cursor: pointer;
+    padding: 6px 12px;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.month-label:hover, .year-label:hover {
+    background-color: #f3f4f6;
+    color: #4f46e5;
+}
+
+.month-label:focus, .year-label:focus {
+    outline: none;
+    background-color: #f3f4f6;
+    color: #4f46e5;
+    box-shadow: 0 0 0 2px #e0e7ff;
+}
+
+.prev, .next {
+    border: none;
+    background: #f3f4f6;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 6px;
+    color: #4b5563;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+
+.prev:hover, .next:hover {
+    background-color: #e5e7eb;
+    color: #111827;
+}
+
+.days {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 10px;
+    text-align: center;
+    /* margin-bottom: 8px; */
+    /* padding: 8px 0; */
+}
+
+.days span {
+    font-size: 14px;
+    font-weight: 600;
+    color: #6b7280;
+    text-transform: uppercase;
+    padding: 6px;
+}
+
+.dates {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 6px;
+}
+
+.date-button {
+    border: none;
+    background: none;
+    width: 36px;
+    height: 36px;
+    font-size: 13px;
+    border-radius: 6px;
+    cursor: pointer;
+    color: #374151;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.15s ease;
+    position: relative;
+    font-weight: 500;
+}
+
+.date-button:hover:not(.selected, .in-range, :disabled) {
+    background-color: #f3f4f6;
+    color: #111827;
+}
+
+.date-button.empty {
+    cursor: default;
+}
+
+.date-button.selected {
+    background-color: #667eea;
+    color: white;
+    font-weight: 600;
+}
+
+.date-button.in-range {
+    background-color: #e0e7ff;
+    color: #4f46e5;
+}
+
+.date-button.today {
+    font-weight: 600;
+}
+
+.date-button.today::after {
+    content: '';
+    position: absolute;
+    bottom: 4px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background-color: currentColor;
+}
+
+.month-picker, .year-picker {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: white;
+    border-radius: 12px;
+    padding: 16px;
+}
+
+.month-grid, .year-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    padding: 8px;
+}
+
+.month-grid button, .year-grid button {
+    padding: 12px;
+    border: none;
+    background: none;
+    font-size: 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    color: #374151;
+    transition: all 0.2s ease;
+}
+
+.month-grid button:hover, .year-grid button:hover {
+    background-color: #f3f4f6;
+    color: #4f46e5;
+}
+
+.month-grid button.selected, .year-grid button.selected {
+    background-color: #667eea;
+    color: white;
+    font-weight: 600;
+}
+
+.year-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+    padding: 0 8px;
+}
+
+.year-header span {
+    font-size: 14px;
+    font-weight: 600;
+    color: #111827;
+}
+
+.actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px solid #e5e7eb;
+}
+
+.actions button {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+
+.actions button.cancel {
+    background-color: #f3f4f6;
+    color: #4b5563;
+}
+
+.actions button.cancel:hover {
+    background-color: #e5e7eb;
+    color: #111827;
+}
+
+.actions button.apply {
+    background-color: #667eea;
+    color: white;
+}
+
+.actions button.apply:hover {
+    background-color: #5a67d8;
+}
