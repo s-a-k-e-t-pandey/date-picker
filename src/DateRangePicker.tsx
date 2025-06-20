@@ -101,6 +101,7 @@ export const DateRangePicker: React.FC<Props> = ({ onChange }) => {
         }
     };
 
+
     const handleCancel = () => {
         setTempDates({ start: startDate, end: endDate });
         setIsCalendarVisible(false);
@@ -180,23 +181,36 @@ export const DateRangePicker: React.FC<Props> = ({ onChange }) => {
         </div>
     );
 
+    const selectStartEnd = (date: Date) =>{
+        const selectedStart = (tempDates.start && tempDates.end)
+        ? (tempDates.start < tempDates.end ? tempDates.start : tempDates.end)
+        : tempDates.start || tempDates.end;
+
+        const selectedEnd = (tempDates.start && tempDates.end)
+        ? (tempDates.start > tempDates.end ? tempDates.start : tempDates.end)
+        : null;
+        const isSelectedStart = selectedStart && date.getTime() === selectedStart.getTime();
+        const isSelectedEnd = selectedEnd && date.getTime() === selectedEnd.getTime();
+        return {isSelectedStart, isSelectedEnd}
+    }
+
     const renderDateButton = (day: number) => {
         const date = new Date(currentDate.getFullYear(), currentDate.getMonth(), day);
         const isToday = date.toDateString() === new Date().toDateString();
         const isSelected = isDateInRange(day);
-        console.log("Date selected"+isSelected)
-
+        const {isSelectedStart, isSelectedEnd} = selectStartEnd(date);
+        
 
         return (
             <button
-            key={day}
-            className={`date-button 
-                ${isSelected ? 'selected' : ''} 
-                ${isToday ? 'today' : ''}
-                `}
-                // ${isStart ? 'range-start': ''}
-                // ${isEnd ? 'range-end': ''}
-            onClick={() => handleDateClick(day)}
+                key={day}
+                className={`date-button 
+                    ${isSelected ? 'selected' : ''} 
+                    ${isToday ? 'today' : ''}
+                    ${isSelectedStart ? 'range-start': ''}
+                    ${isSelectedEnd ? 'range-end': ''}
+                    `}
+                onClick={() => handleDateClick(day)}
             >
             {day}
             </button>
