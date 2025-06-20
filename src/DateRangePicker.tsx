@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./DateRangePicker.css";
 import { ChevronLeft, ChevronRight, Calendar } from 'lucide-react';
+import { isSameWeek } from "date-fns";
 
 interface DateRange {
     start: Date | null;
@@ -19,7 +20,6 @@ export const DateRangePicker: React.FC<Props> = ({ onChange }) => {
     });
     const [currentDate, setCurrentDate] = useState(new Date());
 
-    // Add click outside handler
     const handleClickOutside = (event: MouseEvent) => {
         const target = event.target as HTMLElement;
         if (isCalendarVisible && !target.closest('.datepicker')) {
@@ -42,7 +42,7 @@ export const DateRangePicker: React.FC<Props> = ({ onChange }) => {
     });
     const [tempDates, setTempDates] = useState<DateRange>({
         start: null,
-        end: null
+        end: null 
     });
 
     const monthNames = [
@@ -107,7 +107,7 @@ export const DateRangePicker: React.FC<Props> = ({ onChange }) => {
     };
 
     const handleApply = () => {
-        if (tempDates.start) {
+        if (tempDates.start && tempDates.end) {
             setDates(tempDates);
             onChange?.(tempDates);
             setIsCalendarVisible(false);
@@ -179,6 +179,29 @@ export const DateRangePicker: React.FC<Props> = ({ onChange }) => {
             </div>
         </div>
     );
+
+    const renderDateButton = (day: number) => {
+        const date = new Date(currentDate.getFullYear(), currentDate.getMonth(), day);
+        const isToday = date.toDateString() === new Date().toDateString();
+        const isSelected = isDateInRange(day);
+        console.log("Date selected"+isSelected)
+
+
+        return (
+            <button
+            key={day}
+            className={`date-button 
+                ${isSelected ? 'selected' : ''} 
+                ${isToday ? 'today' : ''}
+                `}
+                // ${isStart ? 'range-start': ''}
+                // ${isEnd ? 'range-end': ''}
+            onClick={() => handleDateClick(day)}
+            >
+            {day}
+            </button>
+        );
+    };
 
     return (
         <div className="datepicker">
@@ -263,25 +286,10 @@ export const DateRangePicker: React.FC<Props> = ({ onChange }) => {
                                 <span>Sa</span>
                             </div>
                             <div className="dates">
-                                {Array.from({ length: getFirstDayOfMonth(currentDate) }, (_, i) => (
+                                {[...Array(getFirstDayOfMonth(currentDate))].map((_, i) => (
                                     <button key={`empty-${i}`} className="date-button empty" disabled />
                                 ))}
-                                {Array.from({ length: getDaysInMonth(currentDate) }, (_, i) => {
-                                    const day = i + 1;
-                                    const date = new Date(currentDate.getFullYear(), currentDate.getMonth(), day);
-                                    const isToday = date.toDateString() === new Date().toDateString();
-                                    const isSelected = isDateInRange(day);
-
-                                    return (
-                                        <button
-                                            key={day}
-                                            className={`date-button ${isSelected ? 'selected' : ''} ${isToday ? 'today' : ''}`}
-                                            onClick={() => handleDateClick(day)}
-                                        >
-                                            {day}
-                                        </button>
-                                    );
-                                })}
+                                {[...Array(getDaysInMonth(currentDate))].map((_, i) => renderDateButton(i + 1))}
                             </div>
                         </>
                     )}

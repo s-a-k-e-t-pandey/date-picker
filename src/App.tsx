@@ -1,12 +1,13 @@
-import { DatePicker } from "./old/DatePicker"
 import { DateRangePicker } from "./DateRangePicker"
+import './App.css';
 
 function App() {
 
   return (
-    <div>
-      <DateRangePicker></DateRangePicker>
-      {/* <DatePicker></DatePicker> */}
+    <div className="app-container">
+      <div className="app-content">
+        <DateRangePicker></DateRangePicker>
+      </div>
     </div>
   )
 }

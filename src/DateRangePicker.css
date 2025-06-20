@@ -6,9 +6,9 @@
 
 .input-wrapper {
     position: relative;
-    border: 1px solid #e5e7eb;
+    border: 2px solid #e5e7eb;
     border-radius: 8px;
-    background: white;
+    background: rgb(24, 20, 20);
     transition: all 0.2s ease;
     cursor: pointer;
     display: flex;
@@ -20,13 +20,14 @@
 
 .input-wrapper:hover {
     border-color: #667eea;
-    background-color: #f9fafb;
+    background-color: #111417;
 }
 
 .input-wrapper:focus-within {
     border-color: #667eea;
+    border-width: 2px;
+    border-color: #007bff;
     box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.12);
-    background-color: white;
 }
 
 .datepicker input {
@@ -34,7 +35,7 @@
     outline: none;
     font-size: 14px;
     background: transparent;
-    color: #111827;
+    color: #cdd3de;
     width: 100%;
     cursor: pointer;
 }
@@ -44,17 +45,21 @@
 }
 
 .calendar-icon {
-    color: #6b7280;
+    color: #e0e4ec;
     flex-shrink: 0;
+    padding: 8px;
     transition: color 0.2s ease;
 }
 
 .input-wrapper:hover .calendar-icon {
-    color: #4f46e5;
+    border-radius: 20px;
+    padding: 8px;
+    background-color: rgb(54, 60, 66);
 }
 
 .calendar {
-    background-color: white;
+    background-color: rgb(47, 56, 61);
+    color: white;
     position: absolute;
     top: calc(100% + 8px);
     left: 0;
@@ -76,8 +81,6 @@
     opacity: 1;
     visibility: visible;
     transform: translateY(0);
-    /* display: grid; */
-    /* grid-template-rows: auto; */
 }
 
 .calendar:not([hidden]) {
@@ -103,6 +106,7 @@
     gap: 4px;
     flex-direction: row;
     justify-content: end;
+    color: white;
 }
 
 .month-label, .year-label {
@@ -110,7 +114,7 @@
     background: none;
     font-size: 14px;
     font-weight: 600;
-    color: #111827;
+    color: #fff;
     cursor: pointer;
     padding: 6px 12px;
     border-radius: 6px;
@@ -121,7 +125,7 @@
 }
 
 .month-label:hover, .year-label:hover {
-    background-color: #f3f4f6;
+    background-color: #6896f1;
     color: #4f46e5;
 }
 
@@ -134,11 +138,11 @@
 
 .prev, .next {
     border: none;
-    background: #f3f4f6;
+    background-color: rgb(47, 56, 61);
     cursor: pointer;
     padding: 8px;
-    border-radius: 6px;
-    color: #4b5563;
+    border-radius: none;
+    color: #fff;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -146,8 +150,8 @@
 }
 
 .prev:hover, .next:hover {
-    background-color: #e5e7eb;
-    color: #111827;
+    border-radius: 20px;
+    background-color: rgb(52, 60, 64)
 }
 
 .days {
@@ -168,9 +172,12 @@
 }
 
 .dates {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    gap: 6px;
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 10px;
+  padding-top: 10px;
+  padding-left: 2px;
+  user-select: none;
 }
 
 .date-button {
@@ -181,37 +188,57 @@
     font-size: 13px;
     border-radius: 6px;
     cursor: pointer;
-    color: #374151;
+    color: #f9fafa;
     display: flex;
     align-items: center;
     justify-content: center;
     transition: all 0.15s ease;
     position: relative;
-    font-weight: 500;
+    font-weight: 700;
 }
 
 .date-button:hover:not(.selected, .in-range, :disabled) {
-    background-color: #f3f4f6;
-    color: #111827;
+    border-radius: 20px;
+    border-color: rgb(231, 234, 237);
+    border-width: 2px;
+    background-color: #434b53;
+}
+
+.date-button.range-start {
+  background: #007bff;
+  color: white;
+  border-radius: 20px;
+  font-weight: bold;
+}
+
+.date-button.range-end {
+  background: #007bff;
+  color: white;
+  border-radius: 20px;
+  font-weight: bold;
 }
 
 .date-button.empty {
+    background: transparent;
     cursor: default;
 }
 
 .date-button.selected {
-    background-color: #667eea;
+    background-color: #b0b6cf;
     color: white;
     font-weight: 600;
 }
 
+.date-button.date-button.selected.start
+
 .date-button.in-range {
-    background-color: #e0e7ff;
-    color: #4f46e5;
+    background-color: rgb(176, 181, 186);
+    color: #ababb8;
 }
 
 .date-button.today {
     font-weight: 600;
+    outline: 2px solid #007bff;
 }
 
 .date-button.today::after {
@@ -226,23 +253,31 @@
     background-color: currentColor;
 }
 
-.month-picker, .year-picker {
-    position: absolute;
-    top: 0;
-    left: 0;
+.month-picker,
+.year-picker {
+    position: relative;
     width: 100%;
     height: 100%;
-    background: white;
+    background-color: #0a1b3d;
     border-radius: 12px;
     padding: 16px;
+    display: flex;           
+    flex-direction: column;  
+    justify-content: center; 
+    align-items: center;   
+    box-sizing: border-box; 
 }
 
-.month-grid, .year-grid {
+.month-grid,
+.year-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 8px;
-    padding: 8px;
+    width: 100%;          
+    max-width: 300px;     
+    box-sizing: border-box;
 }
+
 
 .month-grid button, .year-grid button {
     padding: 12px;
@@ -256,7 +291,7 @@
 }
 
 .month-grid button:hover, .year-grid button:hover {
-    background-color: #f3f4f6;
+    background-color: #6492ec;
     color: #4f46e5;
 }
 
@@ -270,6 +305,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    gap: 16px;
     margin-bottom: 16px;
     padding: 0 8px;
 }
@@ -277,7 +313,15 @@
 .year-header span {
     font-size: 14px;
     font-weight: 600;
-    color: #111827;
+    color: #354568;
+}
+
+.year-header button {
+    background-color: #4f5a71;
+    border: none;
+    border-radius: 10px;
+    max-width: 2px 2px,;
+    padding: auto;
 }
 
 .actions {
