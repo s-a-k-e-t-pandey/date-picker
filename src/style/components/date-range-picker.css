@@ -1,0 +1,83 @@
+.date-range-picker {
+  position: relative;
+  width: 320px;
+  font-family: inherit;
+}
+
+.date-range-picker__input-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.date-range-picker__container {
+  position: relative;
+}
+
+.date-range-picker__input {
+  width: 100%;
+}
+
+.date-range-picker__icon {
+  color: #074acf;
+}
+
+.date-range-picker__icon-wrapper {
+  position: absolute;
+  right: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  pointer-events: none; /* so clicks go to the input */
+}
+
+.date-range-picker__calendar {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  margin-top: var(--spacing-sm);
+}
+
+/* Responsive adjustments */
+@media (max-width: 480px) {
+  .date-range-picker {
+    width: 100%;
+  }
+  
+  .calendar {
+    width: 100%;
+    left: 0;
+    right: 0;
+  }
+}
+
+/* Animation keyframes */
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideOut {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+}
+
+.calendar--entering {
+  animation: slideIn var(--transition-normal) ease-out;
+}
+
+.calendar--exiting {
+  animation: slideOut var(--transition-normal) ease-in;
+}

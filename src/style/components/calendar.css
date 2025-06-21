@@ -1,0 +1,108 @@
+.calendar {
+  position: absolute;
+  top: calc(100% + var(--spacing-sm));
+  left: 0;
+  width: 320px;
+  background-color: var(--color-dark-surface);
+  color: var(--color-dark-text);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-xl);
+  border: 1px solid var(--color-dark-border);
+  padding: var(--spacing-lg);
+  z-index: var(--z-dropdown);
+  user-select: none;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-8px);
+  transition: all var(--transition-normal);
+}
+
+.calendar--visible {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.calendar__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--spacing-lg);
+}
+
+.calendar__nav {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+}
+
+.calendar__nav-button {
+  padding: var(--spacing-sm);
+  border: none;
+  background: transparent;
+  color: var(--color-dark-text);
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.calendar__nav-button:hover {
+  background-color: var(--color-dark-surface-hover);
+}
+
+.calendar__title {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+}
+
+.calendar__title-button {
+  border: none;
+  background: none;
+  color: var(--color-dark-text);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  cursor: pointer;
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-radius: var(--radius-md);
+  transition: all var(--transition-fast);
+}
+
+.calendar__title-button:hover {
+  background-color: var(--color-dark-surface-hover);
+  color: var(--color-primary);
+}
+
+.calendar__weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: var(--spacing-sm);
+  margin-bottom: var(--spacing-md);
+}
+
+.calendar__weekday {
+  text-align: center;
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-dark-text-muted);
+  text-transform: uppercase;
+  padding: var(--spacing-sm);
+}
+
+.calendar__dates {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: var(--spacing-sm);
+  margin-bottom: var(--spacing-lg);
+}
+
+.calendar__actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--spacing-sm);
+  padding-top: var(--spacing-lg);
+  border-top: 1px solid var(--color-dark-border);
+}

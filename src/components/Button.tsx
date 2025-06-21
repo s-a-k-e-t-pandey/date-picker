@@ -1,10 +1,37 @@
-'use client'
-import type { ReactNode } from "react"
+import React from "react";
+import "../style/components/button.css";
 
-export const Button = ({children, onClick, size="small"} : {children: ReactNode, onClick: ()=> void, size?: "big" | "small"}) =>{
-    return <div className={`${size === 'small' ? "px-8 py-2 text-sm" : "px-12 py-4 text-xl"} 
-        bg-white justify-center cursor-pointer text-black transition-colors hover:shadow-lg rounded-full border `} 
-        onClick={onClick}>
-        {children}
-    </div>
-}
+type ButtonProps = {
+  children: React.ReactNode;
+  onClick: () => void;
+  size?: "small" | "medium" | "large";
+  variant?: "primary" | "secondary" | "ghost" | "icon";
+  disabled?: boolean;
+  className?: string;
+};
+
+export const Button: React.FC<ButtonProps> = ({
+  children,
+  onClick,
+  size = "medium",
+  variant = "ghost",
+  disabled = false,
+  className = "",
+}) => {
+  // Dynamically combine utility-based class names
+  const classes = [
+    "btn",
+    `btn--${size}`,
+    `btn--${variant}`,
+    disabled ? "disabled" : "",
+    className
+  ]
+    .filter(Boolean)
+    .join(" ");
+
+  return (
+    <button onClick={onClick} className={classes} disabled={disabled}>
+      {children}
+    </button>
+  );
+};

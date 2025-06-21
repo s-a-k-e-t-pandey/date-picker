@@ -1,0 +1,15 @@
+* {
+  box-sizing: border-box;
+}
+
+.date-range-picker {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  line-height: 1.5;
+  color: var(--color-dark-text);
+}
+
+.date-range-picker *,
+.date-range-picker *::before,
+.date-range-picker *::after {
+  box-sizing: border-box;
+}
