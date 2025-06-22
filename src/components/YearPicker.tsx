@@ -12,7 +12,6 @@ export const YearPicker: React.FC<{
 
   return (
     <div className="year-picker">
-      {/* Header Navigation */}
       <div className="year-picker__header">
         <Button
           onClick={() => onYearRangeChange(-1)}
@@ -35,7 +34,6 @@ export const YearPicker: React.FC<{
         </Button>
       </div>
 
-      {/* Year Grid */}
       <div className="year-picker__grid">
         {years.map((year) => {
           const isSelected = currentDate.getFullYear() === year;

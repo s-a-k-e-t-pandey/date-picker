@@ -1,19 +1,32 @@
-import type{ DateRange } from "../types";
-import { isSameDate, isDateInRange } from '../utils/utils'
-import "../style//components/date-button.css"
-
-
-
+import type { DateRange } from "../types";
+import { isSameDate, isDateInRange } from '../utils/utils';
+import "../style/components/date-button.css";
 
 export const DateButton: React.FC<{
   day: number;
   currentDate: Date;
   tempDates: DateRange;
   onDateClick: (day: number) => void;
+  onDateHover: (day: number) => void;
   isEmpty?: boolean;
-}> = ({ day, currentDate, tempDates, onDateClick, isEmpty = false }) => {
+  isHoverPreview?: boolean;
+  isHoverInRange?: boolean;
+  isHoverStart?: boolean;
+  isHoverEnd?: boolean;
+}> = ({ 
+  day, 
+  currentDate, 
+  tempDates, 
+  onDateClick, 
+  onDateHover,
+  isEmpty = false,
+  isHoverPreview = false,
+  isHoverInRange = false,
+  isHoverStart = false,
+  isHoverEnd = false
+}) => {
   if (isEmpty) {
-    return <div className="w-10 h-10"></div>;
+    return <div className="date-btn date-btn--empty"></div>;
   }
 
   const date = new Date(currentDate.getFullYear(), currentDate.getMonth(), day);
@@ -25,24 +38,36 @@ export const DateButton: React.FC<{
   const isRangeStart = tempDates.start && tempDates.end && isSameDate(date, tempDates.start < tempDates.end ? tempDates.start : tempDates.end);
   const isRangeEnd = tempDates.start && tempDates.end && isSameDate(date, tempDates.start > tempDates.end ? tempDates.start : tempDates.end);
 
-  let buttonClasses = 'w-10 h-10 flex items-center justify-center rounded-lg text-sm font-medium transition-all duration-150 cursor-pointer border-none outline-none';
+  let buttonClasses = 'date-btn';
   
+  // Handle hover preview states
+  if (isHoverStart) {
+    buttonClasses += ' date-btn--hover-start';
+  } else if (isHoverEnd) {
+    buttonClasses += ' date-btn--hover-end';
+  } else if (isHoverInRange) {
+    buttonClasses += ' date-btn--hover-range';
+  } else if (isHoverPreview && !isSelected) {
+    buttonClasses += ' date-btn--hover-preview';
+  }
+  
+  // Handle actual selection states
   if (isRangeStart || isRangeEnd) {
-    buttonClasses += ' bg-blue-600 text-white font-bold';
+    buttonClasses += ' date-btn--range-endpoint';
   } else if (isSelected) {
-    buttonClasses += ' bg-gray-500 text-white border-t border-b border-dashed border-gray-300';
-  } else {
-    buttonClasses += ' text-gray-100 hover:bg-gray-600';
+    buttonClasses += ' date-btn--in-range';
   }
 
   if (isToday) {
-    buttonClasses += ' ring-2 ring-blue-400';
+    buttonClasses += ' date-btn--today';
   }
 
   return (
     <button
       className={buttonClasses}
       onClick={() => onDateClick(day)}
+      onMouseEnter={() => onDateHover(day)}
+      onMouseLeave={() => onDateHover(-1)} // Reset hover
     >
       {day}
     </button>

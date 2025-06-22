@@ -8,7 +8,8 @@ export const DateRangePicker: React.FC<{
   onChange?: (range: DateRange) => void;
   value?: DateRange;
   placeholder?: string;
-}> = ({ onChange, value, placeholder = 'Select date range' }) => {
+  selectedRange?: DateRange;
+}> = ({ onChange, value, placeholder = 'Select date range', selectedRange }) => {
   const [isCalendarVisible, setIsCalendarVisible] = useState(false);
   const [currentDate, setCurrentDate] = useState(new Date());
   const [tempDates, setTempDates] = useState<DateRange>(value || { start: null, end: null });
@@ -16,7 +17,7 @@ export const DateRangePicker: React.FC<{
   const [showYearPicker, setShowYearPicker] = useState(false);
   const [selectedDates, setSelectedDates] = useState<DateRange>(value || { start: null, end: null });
   const containerRef = useRef<HTMLDivElement>(null);
-
+  const inputRef = useRef<HTMLInputElement>(null);
   const [yearRange, setYearRange] = useState({
     start: Math.floor(new Date().getFullYear() / 12) * 12 - 6,
     end: Math.floor(new Date().getFullYear() / 12) * 12 + 6,
@@ -118,11 +119,16 @@ export const DateRangePicker: React.FC<{
     setShowMonthPicker(false);
   };
 
+  const displayValue = selectedRange && selectedRange.start && selectedRange.end
+    ? `${selectedRange.start.toLocaleDateString()} - ${selectedRange.end.toLocaleDateString()}`
+    : selectedDates.start && selectedDates.end
+    ? `${selectedDates.start.toLocaleDateString()} - ${selectedDates.end.toLocaleDateString()}`
+    : '';
+
   return (
     <div ref={containerRef} className="date-range-picker">
       <div
         className="date-range-picker__input-wrapper"
-        onClick={handleToggleCalendar}
         role="button"
         tabIndex={0}
         onKeyDown={(e) => {
@@ -134,13 +140,15 @@ export const DateRangePicker: React.FC<{
       >
         <input
           type="text"
+          ref={inputRef}
           placeholder={placeholder}
-          value={selectedDates.start ? `${formatDate(selectedDates.start)} - ${formatDate(selectedDates.end)}` : ''}
+          value={displayValue}
           readOnly
           className="date-range-picker__input"
+          onClick={handleToggleCalendar}
         />
-        <span className="date-range-picker__icon-wrapper">
-          <Calendar className="date-range-picker__icon" size={20} />
+        <span className="date-range-picker__icon-wrapper"   onClick={() => inputRef.current && inputRef.current.focus()}>
+          <Calendar className="date-range-picker__icon" size={20} onClick={handleToggleCalendar}/>
         </span>
       </div>
 

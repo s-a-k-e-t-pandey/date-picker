@@ -1,4 +1,5 @@
 import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { useState } from 'react';
 import type { DateRange } from '../types';
 import { getDaysInMonth, getFirstDayOfMonth } from "../utils/utils";
 import { DateButton } from './DateButton';
@@ -40,19 +41,63 @@ export const CalendarComp: React.FC<{
   onToggleMonthPicker,
   onToggleYearPicker
 }) => {
+  const [hoveredDay, setHoveredDay] = useState<number>(-1);
+
   const monthNames = [
     'January', 'February', 'March', 'April', 'May', 'June',
     'July', 'August', 'September', 'October', 'November', 'December'
   ];
 
-  const dayNames = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
+  const dayNames = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
 
   if (!isVisible) return null;
+
+  const getHoverRange = (hoveredDay: number): DateRange => {
+    if (hoveredDay === -1) return { start: null, end: null };
+    
+    const hoveredDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), hoveredDay);
+    
+    if (!tempDates.start) {
+      return { start: hoveredDate, end: null };
+    }
+    
+    if (tempDates.start && !tempDates.end) {
+      return {
+        start: tempDates.start < hoveredDate ? tempDates.start : hoveredDate,
+        end: tempDates.start < hoveredDate ? hoveredDate : tempDates.start
+      };
+    }
+    
+    return tempDates;
+  };
+
+  const isDateInHoverRange = (day: number, hoverRange: DateRange): boolean => {
+    if (!hoverRange.start || !hoverRange.end) return false;
+    const date = new Date(currentDate.getFullYear(), currentDate.getMonth(), day);
+    return date >= hoverRange.start && date <= hoverRange.end;
+  };
+
+  const isHoverRangeStart = (day: number, hoverRange: DateRange): boolean => {
+    if (!hoverRange.start) return false;
+    const date = new Date(currentDate.getFullYear(), currentDate.getMonth(), day);
+    return date.getTime() === hoverRange.start.getTime();
+  };
+
+  const isHoverRangeEnd = (day: number, hoverRange: DateRange): boolean => {
+    if (!hoverRange.end) return false;
+    const date = new Date(currentDate.getFullYear(), currentDate.getMonth(), day);
+    return date.getTime() === hoverRange.end.getTime();
+  };
+
+  const handleDateHover = (day: number) => {
+    setHoveredDay(day);
+  };
 
   const renderCalendarDates = () => {
     const daysInMonth = getDaysInMonth(currentDate);
     const firstDay = getFirstDayOfMonth(currentDate);
     const dates = [];
+    const hoverRange = getHoverRange(hoveredDay);
 
     for (let i = 0; i < firstDay; i++) {
       dates.push(
@@ -62,12 +107,18 @@ export const CalendarComp: React.FC<{
           currentDate={currentDate}
           tempDates={tempDates}
           onDateClick={onDateClick}
+          onDateHover={handleDateHover}
           isEmpty={true}
         />
       );
     }
 
     for (let day = 1; day <= daysInMonth; day++) {
+      const isHoverPreview = hoveredDay === day;
+      const isHoverInRange = isDateInHoverRange(day, hoverRange) && hoveredDay !== -1;
+      const isHoverStart = isHoverRangeStart(day, hoverRange) && hoveredDay !== -1;
+      const isHoverEnd = isHoverRangeEnd(day, hoverRange) && hoveredDay !== -1;
+
       dates.push(
         <DateButton
           key={day}
@@ -75,6 +126,11 @@ export const CalendarComp: React.FC<{
           currentDate={currentDate}
           tempDates={tempDates}
           onDateClick={onDateClick}
+          onDateHover={handleDateHover}
+          isHoverPreview={isHoverPreview}
+          isHoverInRange={isHoverInRange}
+          isHoverStart={isHoverStart}
+          isHoverEnd={isHoverEnd}
         />
       );
     }
@@ -84,7 +140,6 @@ export const CalendarComp: React.FC<{
 
   return (
     <div className={`calendar ${isVisible ? 'calendar--visible' : ''}`}>
-      {/* Header */}
       <div className="calendar__header">
         <button onClick={() => onNavigateMonth(-1)} className="calendar__nav-button">
           <ChevronLeft size={18} />
@@ -104,7 +159,6 @@ export const CalendarComp: React.FC<{
         </button>
       </div>
 
-      {/* Pickers or Dates */}
       {showMonthPicker ? (
         <MonthPicker currentDate={currentDate} onMonthClick={onMonthClick} />
       ) : showYearPicker ? (
@@ -124,13 +178,15 @@ export const CalendarComp: React.FC<{
             ))}
           </div>
 
-          <div className="calendar__dates">
+          <div 
+            className="calendar__dates"
+            onMouseLeave={() => setHoveredDay(-1)}
+          >
             {renderCalendarDates()}
           </div>
         </>
       )}
 
-      {/* Actions */}
       <div className="calendar__actions">
         <Button onClick={onCancel} variant="secondary" size="small">
           Cancel

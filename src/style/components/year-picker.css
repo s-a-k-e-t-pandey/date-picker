@@ -2,6 +2,12 @@
   padding: var(--spacing-lg);
   background-color: var(--color-dark-bg);
   border-radius: var(--radius-lg);
+  display: flex;
+  flex-direction: column;
+  align-items: center;      
+  justify-content: center;  
+  height: 100%;
+  width: 100%;
 }
 
 .year-picker__header {
@@ -10,12 +16,19 @@
   justify-content: space-between;
   margin-bottom: var(--spacing-lg);
   padding: 0 var(--spacing-sm);
+  display: flex;
+  flex-direction: row;
+  align-items: center;      
+  justify-content: center;  
 }
 
 .year-picker__range {
   font-size: var(--font-size-sm);
   font-weight: var(--font-weight-semibold);
   color: var(--color-dark-text);
+  inset: 0;
+  padding-left: 8px;
+  padding-right: 8px;
 }
 
 .year-picker__nav {
