@@ -1,5 +1,4 @@
 export const cssModules = {
-  // Button classes
   button: {
     base: 'btn',
     small: 'btn--small',
@@ -11,14 +10,12 @@ export const cssModules = {
     icon: 'btn--icon',
   },
   
-  // Input classes
   input: {
     wrapper: 'input-wrapper',
     field: 'input-field',
     icon: 'input-icon',
   },
   
-  // Calendar classes
   calendar: {
     container: 'calendar',
     visible: 'calendar--visible',
@@ -33,7 +30,6 @@ export const cssModules = {
     actions: 'calendar__actions',
   },
   
-  // Date button classes
   dateButton: {
     base: 'date-btn',
     empty: 'date-btn--empty',
@@ -45,7 +41,6 @@ export const cssModules = {
     disabled: 'date-btn--disabled',
   },
   
-  // Month picker classes
   monthPicker: {
     container: 'month-picker',
     grid: 'month-picker__grid',
@@ -53,7 +48,6 @@ export const cssModules = {
     selected: 'month-picker__button--selected',
   },
   
-  // Year picker classes
   yearPicker: {
     container: 'year-picker',
     header: 'year-picker__header',
@@ -64,7 +58,6 @@ export const cssModules = {
     selected: 'year-picker__button--selected',
   },
   
-  // Main component classes
   dateRangePicker: {
     container: 'date-range-picker',
     input: 'date-range-picker__input',

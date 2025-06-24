@@ -26,10 +26,10 @@
   background: rgba(37, 99, 235, 0.1);
   transform: scale(1.05);
   z-index: 3;
+  border-radius: 20px;
 }
 
 .date-btn--today {
-  color: #f59e0b;
   font-weight: 700;
   border-radius: 20px;
   box-shadow: inset 0 0 0 1px #fff;
@@ -37,7 +37,7 @@
 
 .date-btn--range-endpoint {
   background: #90caf9;
-  color: #202930;
+  color: #121517;
   font-weight: 700;
   border-radius: 20px;
   box-shadow: 0 4px 12px rgba(37, 99, 235, 0.4);
@@ -46,27 +46,16 @@
 }
 
 .date-btn--in-range {
-  border: none !important;
   background: #3a4146;
   color: white;
   position: relative;
 }
-
-/* Create seamless row highlighting using pseudo-elements */
-.date-btn--in-range::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -2px;
-  right: -2px;
-  bottom: 0;
-  z-index: -1;
-  border-radius: 0;
-}
-
-
-.date-btn--range-endpoint::before {
-  display: none;
+.date-btn--in-range:after {
+  background: #3a4146;
+  color: white;
+  position: relative;
+  border-top: none !important;
+  border-bottom: none !important;
 }
 
 
@@ -76,23 +65,26 @@
   color: white;
   font-weight: 700;
   transform: scale(1.05);
-  box-shadow: 0 6px 16px rgba(37, 99, 235, 0.4);
+  z-index: 4;
+  border-radius: 20px;
+}
+.date-btn--hover-start,
+.date-btn--hover-end {
+  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+  color: white;
+  font-weight: 700;
+  transform: scale(1.05);
   z-index: 4;
   border-radius: 20px;
 }
 
-.date-btn--hover-range {
-  border: none !important;
-  color: white;
-  position: relative;
-}
 
 /* hover range highlighting */
 .date-btn--hover-range::after {
   content: '';
   position: absolute;
   top: 0;
-  left: -2px;
+  left: -8px;
   right: -2px;
   bottom: 0;
   z-index: -1;
@@ -100,142 +92,22 @@
   animation: shimmer 2s ease-in-out infinite;
 }
 
-
-/* Override hover range for start/end points */
-.date-btn--hover-start::after,
-.date-btn--hover-end::after {
-  display: none;
-  background-color: #f59e0b;
-  color: #202930;
+.date-btn--hover-range::after {
+  background: none;
+  margin-bottom: 2px;
+  border-bottom: 1px dashed #fff;
+  border-top: 1px dashed #fff;
 }
 
-/* Focus states */
-.date-btn:focus {
-  outline: none;
-  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.4);
-  z-index: 6;
-}
 
-/* Disabled states */
-.date-btn:disabled {
-  opacity: 0.3;
-  cursor: not-allowed;
-  pointer-events: none;
-}
 
-/* Animation for shimmer effect */
 @keyframes shimmer {
   0% {
-    background-position: -200% 0;
+    background-position: -100% 0;
+    opacity: 1;
   }
   100% {
     background-position: 200% 0;
-  }
-}
-
-.date-btn * {
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-/* High contrast mode support */
-@media (prefers-contrast: high) {
-  .date-btn--range-endpoint {
-    border: 2px solid #ffffff;
-  }
-  
-  /* .date-btn--in-range::before {
-    border: 1px solid rgba(255, 255, 255, 0.3);
-  } */
-  
-  .date-btn:focus {
-    box-shadow: 0 0 0 4px #ffffff;
-  }
-}
-
-/* Reduced motion support */
-@media (prefers-reduced-motion: reduce) {
-  .date-btn,
-  .date-btn::before,
-  .date-btn::after {
-    transition: none;
-    animation: none;
-  }
-  
-  .date-btn:hover {
-    transform: none;
-  }
-}
-
-/* Dark theme enhancements */
-@media (prefers-color-scheme: dark) {
-  .date-btn {
-    color: #f8fafc;
-  }
-  
-  .date-btn--in-range::before {
-    /* border-bottom: 1px dashed white;
-    border-top: 1px dashed white; */
-    background-color: none;
-    
-  }
-  
-  .date-btn--hover-range::after {
-    background-color: none;
-    border-bottom: 1px dashed white;
-    border-top: 1px dashed white;
-
-  }
-}
-
-/* Mobile optimizations */
-@media (max-width: 480px) {
-  .date-btn {
-    width: 36px;
-    height: 36px;
-    font-size: 13px;
-  }
-  
-  .calendar__dates {
-    gap: 1px;
-    padding: 2px;
-  }
-  
-  .date-btn--in-range::before,
-  .date-btn--hover-range::after {
-    left: -1px;
-    right: -1px;
-  }
-}
-
-/* Touch device optimizations */
-@media (hover: none) and (pointer: coarse) {
-  .date-btn:hover {
-    transform: none;
-    background: transparent;
-  }
-  
-  .date-btn:active {
-    transform: scale(0.95);
-    background: rgba(37, 99, 235, 0.2);
-  }
-}
-
-/* Print styles */
-@media print {
-  .date-btn {
-    background: transparent !important;
-    color: #000000 !important;
-    box-shadow: none !important;
-  }
-  
-  .date-btn--range-endpoint {
-    border: 2px solid #000000 !important;
-    background: transparent !important;
-    color: #202930;
-  }
-  
-  .date-btn--in-range::before {
-    background: #f0f0f0 !important;
-    
+    opacity: 1;
   }
 }
